@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="display: flex; background: linear-gradient(#7910f9, #ff0000); height: 100vh">
+    <div>
+      <button id="btn">Ramdom color</button>
+      <input type="text" style="width: 100px" id="color-hex" />
+      <button id="coppy-hex">Coppy</button>
+      <div id="div-color" style="width: 400px; height: 400px; background-color: #000; margin-top: 10px"></div>
+    </div>
+    <div style="margin-left: 100px">
+      <label for="favcolor">Chọn màu 1</label>
+      <input type="color" id="favcolor1" name="favcolor" value="#ff0000" /><br /><br />
+      <label for="favcolor">Chọn màu 2</label>
+      <input type="color" id="favcolor2" name="favcolor" value="#ff0000" /><br /><br />
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(() => {
+        $('#btn').on('click', () => {
+          const color = getRandomColor();
+          $('#color-hex').val(color);
+          $('#div-color').css('background-color', color);
+        });
+        $('#coppy-hex').on('click', copyColor);
+        function getRandomColor() {
+          var input = '0123456789ABCDEF';
+          var color = '#';
+          for (var i = 0; i < 6; i++) {
+            color += input[Math.floor(Math.random() * 16)];
+          }
+          return color;
+        }
+        function copyColor() {
+          const copyText = $('#color-hex');
+          copyText.select();
+          document.execCommand('copy');
+        }
+        $('#favcolor1').on('change', () => {
+          changeColor();
+        });
+
+        $('#favcolor2').on('change', () => {
+          changeColor();
+        });
+
+        function changeColor() {
+          const color1 = $('#favcolor1').val();
+          const color2 = $('#favcolor2').val();
+          $('body').css('background', `linear-gradient(rgb(${hexToRGB(color1)}), rgb(${hexToRGB(color2)}))`);
+        }
+
+        function hexToRGB(hex) {
+          return [('0x' + hex[1] + hex[2]) | 0, ('0x' + hex[3] + hex[4]) | 0, ('0x' + hex[5] + hex[6]) | 0];
+        }
+      });
+    </script>
+  </body>
+</html>
